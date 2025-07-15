@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: django_app
+    ports:
+      - "${WEB_APP_PORT}:8000"
+    env_file:
+      - .env
+    environment:
+      - DJANGO_READ_ENV_FILE=0
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "${MONGO_PORT}:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
