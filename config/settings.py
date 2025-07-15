@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'apps.core'
     'analysis',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -36,7 +38,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
-ROOT_URLCONF = 'medical_project.urls'
+ROOT_URLCONF = 'config.urls'
+AUTH_USER_MODEL = 'core.User'
 
 TEMPLATES = []
 

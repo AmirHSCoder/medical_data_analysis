@@ -73,9 +73,9 @@ def test_user_data() -> dict[str, Any]:
     }
 
 # Database Fixtures
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def enable_db_access_for_all_tests(db):
-    """Fixture that enables database access for all tests"""
+    """Provide database access when explicitly requested."""
     pass
 
 # Custom Markers
