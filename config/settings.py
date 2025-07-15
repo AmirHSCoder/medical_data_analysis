@@ -24,8 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'apps.core'
-    'analysis',
+    'apps.core',
+    'apps.analysis',
 ]
 
 
@@ -49,7 +49,15 @@ ASGI_APPLICATION = 'config.asgi.application'
 USE_HTTPS = env.bool("USE_HTTPS", default=True)
 RATE_LIMIT = env.int("RATE_LIMIT", default=100)
 
-DATABASES = {
+if env.bool('USE_SQLITE', default=False):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
         'default': {
             'ENGINE': 'djongo',
             'HOST': env('MONGO_HOST'),
