@@ -1,7 +1,6 @@
 from typing import List
 from .base import BaseRepository
-from analysis.models import CrossData, LongData, MergedData, RFResult, YProb
-
+from apps.analysis.models import CrossData, LongData, MergedData, RFResult, YProb
 
 class CrossDataRepository(BaseRepository[CrossData]):
     """Repository for :class:`CrossData` model."""

@@ -1,7 +1,15 @@
+import os
+import django
 import pytest
 from django.contrib.auth import get_user_model
 from django.db import models
 from typing import Generator, Any
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+os.environ.setdefault("DJANGO_SECRET_KEY", "test-secret")
+os.environ.setdefault("DEBUG", "1")
+os.environ.setdefault("USE_SQLITE", "1")
+django.setup()
 
 User = get_user_model()
 
