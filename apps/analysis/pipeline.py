@@ -58,7 +58,7 @@ def train_and_store(command, dir):
     data.replace(['', 'nan', 'null'], np.nan, inplace=True)
     for column in data.columns:
         mode_value = data[column].mode()[0]  
-        data[column].fillna(mode_value, inplace=True)
+        data.fillna({column: mode_value}, inplace=True)
     
     missing_values_after_filling = data.isnull().sum()
     

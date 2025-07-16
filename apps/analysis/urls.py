@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RFResultView, YProbView, DataView, TrainModelView
+from .views import RFResultView, YProbView, DataView
 
 urlpatterns = [
     path('rf_result/', RFResultView.as_view(), name='rf_result'),
