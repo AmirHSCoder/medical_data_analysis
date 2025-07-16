@@ -1,46 +1,70 @@
+# Medical Data Analysis Service
 
+This project provides a small Django API for uploading medical CSV data,
+training a machine learning model and retrieving the results. The service
+stores datasets and model output in MongoDB and exposes REST endpoints for
+interactive use.
 
+## Getting started
 
-# Getting Started
-Clone the project
-git clone ....
-cd ....
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements/development.txt
+1. Clone the repository and create a virtual environment:
+   ```bash
+   git clone <repo-url>
+   cd medical_data_analysis
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+2. Copy `.env` and adjust the values for your environment. Important
+   settings include `MONGO_HOST`, `MONGO_NAME`, `MONGO_PORT`,
+   `MONGO_USERNAME` and `MONGO_PASSWORD`.
+3. Apply database migrations and run the development server:
+   ```bash
+   export DJANGO_SETTINGS_MODULE=config.settings
+   python manage.py migrate
+   python manage.py runserver
+   ```
+   You can alternatively launch with Uvicorn:
+   ```bash
+   uvicorn config.asgi:application --reload
+   ```
 
-# Install Django and ASGI server
-pip install django uvicorn
+## Production deployment
 
-# Using Poetry
-The repository also contains a `pyproject.toml` so it can be managed with
-[Poetry](https://python-poetry.org/). No lock file is committed and the
-environment may not have network access. Running `poetry install` therefore
-attempts to download packages from PyPI and can fail. If that happens, install
-dependencies with the requirements file instead:
-
+A `Dockerfile` and `docker-compose.yml` are provided. Build the image and
+start the containers with:
 ```bash
-pip install -r requirements/development.txt
+docker-compose up --build
 ```
+Ensure environment variables from `.env` are set appropriately (disable
+`DEBUG` and configure `ALLOWED_HOSTS`).
 
-# Run the Project
+## Training the model
 
-# Export dev settings
-export DJANGO_SETTINGS_MODULE=config.settings.dev
-python manage.py migrate
-python manage.py runserver
-Or run with Uvicorn:
-uvicorn config.asgi:application --reload
+Data can be trained locally using the management command:
+```bash
+python manage.py train_model -d path/to/data
+```
+The directory must contain `cross.csv` and `long.csv`. The command loads the
+files, trains a RandomForest classifier and stores the merged data and model
+results in MongoDB.
 
+## Available APIs
 
+All API endpoints require a valid JWT token.
 
-# Run all tests
+- `POST /api/token/` – obtain a token using username and password.
+- `POST /api/token/refresh/` – refresh an access token.
+- `GET  /api/rf_result/` – latest classification report.
+- `GET  /api/y_result/` – probability predictions for the last run.
+- `GET  /api/data/` – merged dataset used for training.
+- `POST /api/train/` – trigger model training (equivalent to running
+  `train_model`).
+
+## Running tests
+
+Execute all tests with:
+```bash
 pytest
-
-# Run specific test file
-pytest tests/unit/repositories/test_base_repository.py
-pytest tests/unit/repositories/test_user_repository.py
-
-# Run with verbose output
-pytest -v
+```
