@@ -1,13 +1,16 @@
 from abc import ABC
-from typing import Generic, TypeVar, Type, List, Optional, Any
+from typing import Any, Generic, List, Optional, Type, TypeVar
+
 from django.db import models
 
-T = TypeVar('T', bound=models.Model)
+T = TypeVar("T", bound=models.Model)
+
 
 class BaseRepository(Generic[T], ABC):
     """
     An abstract base class for a repository.
     """
+
     model: Type[T]
 
     def get_by_id(self, pk: int) -> Optional[T]:

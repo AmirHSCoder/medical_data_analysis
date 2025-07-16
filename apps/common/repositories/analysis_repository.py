@@ -1,11 +1,16 @@
 from typing import List
-from .base import BaseRepository
+
 from apps.analysis.models import CrossData, LongData, MergedData, RFResult, YProb
 from apps.analysis.utils import get_collection
 from apps.analysis.utils import CROSS_DATA_COLLECTION, LONG_DATA_COLLECTION, MERGED_DATA, RF_RESULT, Y_RESULT
 
+from .base import BaseRepository
+
+
+
 class CrossDataRepository(BaseRepository[CrossData]):
     """Repository for :class:`CrossData` model."""
+
     model = CrossData
 
     def get_by_gender(self, gender: str) -> List[CrossData]:
@@ -15,6 +20,7 @@ class CrossDataRepository(BaseRepository[CrossData]):
 
 class LongDataRepository(BaseRepository[LongData]):
     """Repository for :class:`LongData` model."""
+
     model = LongData
 
     def get_by_subject(self, subject_id: str) -> List[LongData]:
@@ -26,7 +32,7 @@ class MergedDataRepository(BaseRepository[MergedData]):
     """Repository for :class:`MergedData` model."""
     model = MergedData
     collection = MERGED_DATA
-    
+
     def __init__(self):
         self.connection = get_collection(self.collection)
 
@@ -37,9 +43,10 @@ class MergedDataRepository(BaseRepository[MergedData]):
 
 class RFResultRepository(BaseRepository[RFResult]):
     """Repository for :class:`RFResult` model."""
+
     model = RFResult
     collection = RF_RESULT
-    
+
     def __init__(self):
         self.connection = get_collection(self.collection)
 
@@ -50,9 +57,10 @@ class RFResultRepository(BaseRepository[RFResult]):
 
 class YProbRepository(BaseRepository[YProb]):
     """Repository for :class:`YProb` model."""
+
     model = YProb
     collection = Y_RESULT
-    
+
     def __init__(self):
         self.connection = get_collection(self.collection)
 
