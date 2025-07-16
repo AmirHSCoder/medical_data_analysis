@@ -20,6 +20,8 @@ xgboost = "^3.0.2"
 djangorestframework-simplejwt = "^5.5.0"
 djangorestframework = "^3.16.0"
 pytest-env = "^1.1.5"
+adrf = "^0.1.9"
+motor = "^3.7.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"

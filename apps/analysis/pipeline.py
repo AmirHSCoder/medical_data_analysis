@@ -2,13 +2,13 @@ import os
 import csv
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, StandardScaler, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 from sklearn.compose import ColumnTransformer
+from apps.analysis import utils
 from .utils import get_collection
 from .utils import CROSS_DATA_COLLECTION, LONG_DATA_COLLECTION, MERGED_DATA, RF_RESULT, Y_RESULT
 
@@ -41,6 +41,8 @@ def load_data(command, dir, file_name, collection):
 
 
 def train_and_store(command, dir):
+    utils.USE_ASYNC_DB = False
+
     cross_collection = get_collection(CROSS_DATA_COLLECTION)
     long_collection = get_collection(LONG_DATA_COLLECTION)
 
@@ -54,7 +56,6 @@ def train_and_store(command, dir):
     data = pd.concat([data_cross, data_long])
 
     data.replace(['', 'nan', 'null'], np.nan, inplace=True)
-
     for column in data.columns:
         mode_value = data[column].mode()[0]  
         data[column].fillna(mode_value, inplace=True)
@@ -95,7 +96,8 @@ def train_and_store(command, dir):
     y_prob = pipeline.predict_proba(X_val)
 
     get_collection(RF_RESULT).replace_one({'_id':'latest'}, {'report':rf_rsult}, upsert=True)
-    get_collection(Y_RESULT).replace_one({'_id':'latest'}, {'y_prob':y_prob.tolist()}, upsert=True)
+    formatted_probs = y_prob.tolist() if hasattr(y_prob, 'tolist') else list(y_prob)
+    get_collection(Y_RESULT).replace_one({'_id':'latest'}, {'y_prob':formatted_probs}, upsert=True)
     get_collection(MERGED_DATA).delete_many({})
     get_collection(MERGED_DATA).insert_many(data.to_dict('records'))
 

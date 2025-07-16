@@ -1,6 +1,8 @@
 from typing import List
 from .base import BaseRepository
 from apps.analysis.models import CrossData, LongData, MergedData, RFResult, YProb
+from apps.analysis.utils import get_collection
+from apps.analysis.utils import CROSS_DATA_COLLECTION, LONG_DATA_COLLECTION, MERGED_DATA, RF_RESULT, Y_RESULT
 
 class CrossDataRepository(BaseRepository[CrossData]):
     """Repository for :class:`CrossData` model."""
@@ -23,19 +25,37 @@ class LongDataRepository(BaseRepository[LongData]):
 class MergedDataRepository(BaseRepository[MergedData]):
     """Repository for :class:`MergedData` model."""
     model = MergedData
+    collection = MERGED_DATA
+    
+    def __init__(self):
+        self.connection = get_collection(self.collection)
+
+    async def all(self) -> RFResult | None:
+        data = await self.connection.find({}, {'_id': 0}).to_list()
+        return data
 
 
 class RFResultRepository(BaseRepository[RFResult]):
     """Repository for :class:`RFResult` model."""
     model = RFResult
+    collection = RF_RESULT
+    
+    def __init__(self):
+        self.connection = get_collection(self.collection)
 
-    def latest(self) -> RFResult | None:
-        return self.model.objects.order_by('-created_at').first()
+    async def latest(self) -> RFResult | None:
+        latest = await self.connection.find_one({'_id':'latest'})
+        return latest['report']
 
 
 class YProbRepository(BaseRepository[YProb]):
     """Repository for :class:`YProb` model."""
     model = YProb
+    collection = Y_RESULT
+    
+    def __init__(self):
+        self.connection = get_collection(self.collection)
 
-    def latest(self) -> YProb | None:
-        return self.model.objects.order_by('-created_at').first()
+    async def latest(self) -> RFResult | None:
+        latest = await self.connection.find_one({'_id':'latest'})
+        return latest['y_prob']

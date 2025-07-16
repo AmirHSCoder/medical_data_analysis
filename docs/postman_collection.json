@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "b6d45587-7674-4379-937b-29d0c89b3f17",
+		"name": "Daria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10127265",
+		"_collection_link": "https://winter-comet-461340.postman.co/workspace/b9d69e4a-7d05-478b-b54f-0d7f159a30b3/collection/10127265-b6d45587-7674-4379-937b-29d0c89b3f17?action=share&source=collection_link&creator=10127265"
+	},
+	"item": [
+		{
+			"name": "get_token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh_token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MjczMzc4MywiaWF0IjoxNzUyNjQ3MzgzLCJqdGkiOiJiNzgxZWI4M2RmMDE0NzI3YmEwYjhhNWNjNzJlZGYyNyIsInVzZXJfaWQiOjF9.97LrNF06gjV75JsYa2EDv3RUhwyAAaQxMjKp0PrIgGU\n",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/refresh/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rf_result",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNjg0NzIwLCJpYXQiOjE3NTI2ODQ0MjAsImp0aSI6IjlmZmI2OTgxODkxYzQ5OTZiMzM3OWFjYTA5YWRmNmI4IiwidXNlcl9pZCI6MX0.umAXjHmEyGQ0o_A39ZJuFF4yEoKiZ3NjNVkgKkmi1Yc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/rf_result/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rf_result",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "y_result",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNjg1NDc2LCJpYXQiOjE3NTI2ODUxNzYsImp0aSI6ImFmMmE5MTMwY2JjNTRhNDU4YTk5MzgyNDUwYTgyZTg5IiwidXNlcl9pZCI6MX0.nXLYKZxSSEk3vlRGEcY1cSkErpvqRVRV80yt412xYGo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/y_result/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"y_result",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNjg2MjEyLCJpYXQiOjE3NTI2ODU5MTIsImp0aSI6IjUxN2RhZmYzZDkzZDRmZjY4YTJhZTUzMWFjNWIzMzg1IiwidXNlcl9pZCI6MX0.1eua5D9OVou6026e9xJsaVH67yfrXG7kYWjtZETJMBc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/data/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"data",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
