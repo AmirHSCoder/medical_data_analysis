@@ -15,8 +15,7 @@ def api_client():
     return APIClient()
 
 @pytest.fixture
-@pytest.mark.django_db
-def auth_client(api_client):
+def auth_client(api_client, db):
     user = User.objects.create_user(username='tester', password='pass')
     resp = api_client.post('/api/token/', {'username': 'tester', 'password': 'pass'}, format='json')
     token = resp.data['access']
