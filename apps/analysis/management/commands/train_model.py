@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from analysis.pipeline import train_and_store
+from apps.analysis.pipeline import train_and_store
 
 class Command(BaseCommand):
     help = 'Train ML models and store results in MongoDB'

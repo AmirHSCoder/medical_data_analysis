@@ -6,7 +6,7 @@ import os
 env = environ.Env()
 
 if env.int('DJANGO_READ_ENV_FILE', 1):
-    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    BASE_DIR = Path(__file__).resolve().parent.parent
     env_file = os.environ.get("DJANGO_ENV_FILE", BASE_DIR / ".env")
     environ.Env.read_env(env_file)
 
