@@ -9,13 +9,14 @@ interactive use.
 
 1. Clone the repository and create a virtual environment:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/AmirHSCoder/medical_data_analysis.git
    cd medical_data_analysis
    python -m venv .venv
    source .venv/bin/activate
    pip install --upgrade pip
    pip install -r requirements.txt
    ```
+   as an alternative you can use poetry to manage dependencies.
 2. Copy `.env` and adjust the values for your environment. Important
    settings include `MONGO_HOST`, `MONGO_NAME`, `MONGO_PORT`,
    `MONGO_USERNAME` and `MONGO_PASSWORD`.
@@ -46,6 +47,12 @@ Data can be trained locally using the management command:
 ```bash
 python manage.py train_model -d path/to/data
 ```
+
+example:
+```bash
+python manage.py train_model -d tests/fixtures
+```
+
 The directory must contain `cross.csv` and `long.csv`. The command loads the
 files, trains a RandomForest classifier and stores the merged data and model
 results in MongoDB.
@@ -59,8 +66,6 @@ All API endpoints require a valid JWT token.
 - `GET  /api/rf_result/` – latest classification report.
 - `GET  /api/y_result/` – probability predictions for the last run.
 - `GET  /api/data/` – merged dataset used for training.
-- `POST /api/train/` – trigger model training (equivalent to running
-  `train_model`).
 
 ## Running tests
 

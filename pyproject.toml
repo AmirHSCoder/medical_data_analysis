@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-as-microservice-template"
+name = "medical_data_analysis"
 version = "0.1.0"
 description = ""
 authors = ["Amir H. Sadati <eng.amirh.sadati@gmail.com>"]

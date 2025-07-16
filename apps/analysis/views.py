@@ -32,11 +32,3 @@ class DataView(APIView):
         result = await MergedDataRepository().all()
         return Response(result, content_type="application/json")
 
-class TrainModelView(APIView):
-    permission_classes = [IsAuthenticated]
-    async def post(self, request):
-        try:
-            await sync_to_async(call_command('train_model'))
-        except Exception as e:
-            return Response({"detail": str(e)}, status=500)
-        return Response({"detail": "Training started"}, status=200)
