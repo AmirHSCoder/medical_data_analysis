@@ -1,11 +1,13 @@
 from typing import List
-from .base import BaseRepository
+
 from apps.analysis.models import CrossData, LongData, MergedData, RFResult, YProb
-from apps.analysis.utils import get_collection
-from apps.analysis.utils import CROSS_DATA_COLLECTION, LONG_DATA_COLLECTION, MERGED_DATA, RF_RESULT, Y_RESULT
+
+from .base import BaseRepository
+
 
 class CrossDataRepository(BaseRepository[CrossData]):
     """Repository for :class:`CrossData` model."""
+
     model = CrossData
 
     def get_by_gender(self, gender: str) -> List[CrossData]:
@@ -15,6 +17,7 @@ class CrossDataRepository(BaseRepository[CrossData]):
 
 class LongDataRepository(BaseRepository[LongData]):
     """Repository for :class:`LongData` model."""
+
     model = LongData
 
     def get_by_subject(self, subject_id: str) -> List[LongData]:
@@ -24,38 +27,23 @@ class LongDataRepository(BaseRepository[LongData]):
 
 class MergedDataRepository(BaseRepository[MergedData]):
     """Repository for :class:`MergedData` model."""
-    model = MergedData
-    collection = MERGED_DATA
-    
-    def __init__(self):
-        self.connection = get_collection(self.collection)
 
-    async def all(self) -> RFResult | None:
-        data = await self.connection.find({}, {'_id': 0}).to_list()
-        return data
+    model = MergedData
 
 
 class RFResultRepository(BaseRepository[RFResult]):
     """Repository for :class:`RFResult` model."""
-    model = RFResult
-    collection = RF_RESULT
-    
-    def __init__(self):
-        self.connection = get_collection(self.collection)
 
-    async def latest(self) -> RFResult | None:
-        latest = await self.connection.find_one({'_id':'latest'})
-        return latest['report']
+    model = RFResult
+
+    def latest(self) -> RFResult | None:
+        return RFResult.objects.order_by("-created_at").first()
 
 
 class YProbRepository(BaseRepository[YProb]):
     """Repository for :class:`YProb` model."""
-    model = YProb
-    collection = Y_RESULT
-    
-    def __init__(self):
-        self.connection = get_collection(self.collection)
 
-    async def latest(self) -> RFResult | None:
-        latest = await self.connection.find_one({'_id':'latest'})
-        return latest['y_prob']
+    model = YProb
+
+    def latest(self) -> YProb | None:
+        return YProb.objects.order_by("-created_at").first()

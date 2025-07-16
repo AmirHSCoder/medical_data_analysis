@@ -1,0 +1,19 @@
+stages:
+  - lint
+  - test
+
+lint:
+  image: python:3.11
+  stage: lint
+  script:
+    - pip install -r requirements.txt flake8 black isort
+    - isort apps tests config manage.py --check-only
+    - black apps tests config manage.py --check
+    - flake8
+
+test:
+  image: python:3.11
+  stage: test
+  script:
+    - pip install -r requirements.txt pytest pytest-django
+    - pytest -q
