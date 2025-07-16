@@ -1,6 +1,7 @@
 import os
 import csv
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, StandardScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -30,8 +31,11 @@ def load_data(command, dir, file_name, collection):
 
     except FileNotFoundError:
         command.write_err(f'Error: File not found at {file_path}')
+        raise
+        
     except Exception as e:
         command.write_err(f'An unexpected error occurred: {e}')
+        raise
 
     return None
 
@@ -43,15 +47,17 @@ def train_and_store(command, dir):
     load_data(command, dir, file_name='cross.csv', collection=cross_collection)
     load_data(command, dir, file_name='long.csv', collection=long_collection)
 
-    cursor = cross_collection.find({})
+    cursor = cross_collection.find({}, {'_id': 0})
     data_cross = pd.DataFrame(list(cursor))
-    cursor = long_collection.find({})
+    cursor = long_collection.find({}, {'_id': 0})
     data_long = pd.DataFrame(list(cursor))
     data = pd.concat([data_cross, data_long])
-    
+
+    data.replace(['', 'nan', 'null'], np.nan, inplace=True)
+
     for column in data.columns:
         mode_value = data[column].mode()[0]  
-        data.fillna({column: mode_value}, inplace=True)
+        data[column].fillna(mode_value, inplace=True)
     
     missing_values_after_filling = data.isnull().sum()
     
@@ -89,7 +95,7 @@ def train_and_store(command, dir):
     y_prob = pipeline.predict_proba(X_val)
 
     get_collection(RF_RESULT).replace_one({'_id':'latest'}, {'report':rf_rsult}, upsert=True)
-    get_collection(Y_RESULT).replace_one({'_id':'latest'}, {'y_prob':list(y_prob)}, upsert=True)
+    get_collection(Y_RESULT).replace_one({'_id':'latest'}, {'y_prob':y_prob.tolist()}, upsert=True)
     get_collection(MERGED_DATA).delete_many({})
-    get_collection(MERGED_DATA).insert_many(data)
+    get_collection(MERGED_DATA).insert_many(data.to_dict('records'))
 

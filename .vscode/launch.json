@@ -10,12 +10,14 @@
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
             "args": [
-                "runserver"
+                "train_model",
+                "-d",
+                "tests/fixtures"
             ],
             "django": true,
             "env": {
-                "DJANGO_SETTINGS_MODULE": "config.settings.development",
-                "DJANGO_ENV_FILE": "${workspaceFolder}/.env.dev"
+                "DJANGO_SETTINGS_MODULE": "config.settings",
+                "DJANGO_ENV_FILE": "${workspaceFolder}/.env"
             }
         }
     ]

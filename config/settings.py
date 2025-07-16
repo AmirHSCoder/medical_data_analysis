@@ -47,24 +47,18 @@ ASGI_APPLICATION = 'config.asgi.application'
 USE_HTTPS = env.bool("USE_HTTPS", default=True)
 RATE_LIMIT = env.int("RATE_LIMIT", default=100)
 
-if env.bool('USE_SQLITE', default=False):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'djongo',
-            'HOST': env('MONGO_HOST'),
-            'PORT': env.int('MONGO_PORT'),
-            'NAME': env('MONGO_NAME'),
-            'USER': env('MONGO_USERNAME'),
-            'PASSWORD': env('MONGO_PASSWORD'),
-        }
-    }
+}
+
+MONGO_HOST = env('MONGO_HOST', default='localhost')
+MONGO_PORT = env('MONGO_PORT', default='27017')
+MONGO_NAME = env('MONGO_NAME', default='default')
+MONGO_USERNAME = env('MONGO_USERNAME', default='')
+MONGO_PASSWORD = env('MONGO_PASSWORD', default='')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
