@@ -33,6 +33,21 @@
                 "DJANGO_SETTINGS_MODULE": "config.settings",
                 "DJANGO_ENV_FILE": "${workspaceFolder}/.env"
             }
+        },
+        {
+            "name": "asgi runserver",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "config.asgi:application",
+                "--reload"
+            ],
+            "django": true,
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "config.settings",
+                "DJANGO_ENV_FILE": "${workspaceFolder}/.env"
+            }
         }
     ]
 }
