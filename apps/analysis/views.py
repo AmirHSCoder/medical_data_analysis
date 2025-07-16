@@ -38,13 +38,3 @@ class DataView(APIView):
     async def get(self, request):
         result = await MergedDataRepository().all()
         return Response(result, content_type="application/json")
-
-
-class TrainModelView(APIView):
-    """Trigger the ML training pipeline."""
-
-    permission_classes = [IsAuthenticated]
-
-    async def post(self, request):
-        call_command("train_model")
-        return Response({"detail": "Training started"})

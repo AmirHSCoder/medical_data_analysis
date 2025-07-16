@@ -99,6 +99,15 @@ def train_and_store(command, dir):
     y_train_label = label.fit_transform(y_train)
     y_test_label = label.transform(y_val)
     pipeline.fit(X_train, y_train_label)
+    accuracy = pipeline.score(X_val, y_test_label)
+
+    pipeline = Pipeline([
+        ('preprocessor', preprocessor),
+        ('classifier', RandomForestClassifier())
+    ])
+
+    pipeline.fit(X_train, y_train_label)
+    accuracy = pipeline.score(X_val, y_test_label)
     rf_rsult = classification_report(y_test_label, pipeline.predict(X_val))
     y_prob = pipeline.predict_proba(X_val)
 
