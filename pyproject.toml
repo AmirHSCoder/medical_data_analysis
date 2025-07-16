@@ -19,6 +19,7 @@ scikit-learn = "^1.7.0"
 xgboost = "^3.0.2"
 djangorestframework-simplejwt = "^5.5.0"
 djangorestframework = "^3.16.0"
+pytest-env = "^1.1.5"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"
